@@ -1,0 +1,13 @@
+#!/bin/sh
+Checker1='ifconfig.co' 
+Checker2='http://members.3322.org/dyndns/getip'
+NEW_IP=`for a in $Checker1 $Checker2; do curl $a 2> /dev/null; done | grep -E "(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9]?[0-9])(\.(2[0-4][0-9]|25[0-5]|1[0-9][0-9]|[1-9]?[0-9])){3}" | uniq`
+OLD_IP=`tail -n1 /tmp/wan-ip.log 2> /dev/null`
+if [ "$NEW_IP" != "$OLD_IP" ]; then
+  echo $NEW_IP >> /tmp/wan-ip.log 2> /dev/null
+  if [ -n "$1" ]; then
+    $1 "WAN IP changed from "$OLD_IP" to "$NEW_IP
+  else
+    echo "WAN IP changed from "$OLD_IP" to "$NEW_IP
+  fi
+fi

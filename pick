@@ -1,0 +1,7 @@
+if [ -z $1 ] || [ -z $2 ]; then
+  echo "usage SCRIPT <host file> <line no>"
+else
+  address=`head -n $2 $1 | tail -n1`
+  read ip port <<< "$address"
+  ssh $ip -p $port
+fi

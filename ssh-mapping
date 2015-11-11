@@ -1,0 +1,3 @@
+ADDR=$1
+PORT=$2
+autossh -M 10000 -NR 10001:localhost:22 $ADDR -p $PORT &

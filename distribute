@@ -1,0 +1,10 @@
+if [ -z $1 -a -z $2 ]
+then
+  echo "usage SCRIPT <host file>"
+else
+  grep -v '^#' $1 | while read i p
+  do
+    echo "copy to ["$i"]"
+    scp -P $p -p $2 $i":~/" > /dev/null &
+  done
+fi

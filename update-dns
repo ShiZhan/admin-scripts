@@ -1,0 +1,1 @@
+sudo sed -i 's/^/#/;1 i\nameserver 8.8.8.8\nnameserver 114.114.114.114' /etc/resolv.conf

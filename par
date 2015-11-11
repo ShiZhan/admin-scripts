@@ -1,0 +1,9 @@
+if [ -z $1 ]
+then
+  echo "usage SCRIPT <host file> <command>"
+else
+  grep -v '^#' $1 | while read i p
+  do
+    ssh $i -p $p $2 $3 $4 $5 $6 $7 $8 $9 < /dev/null &
+  done
+fi

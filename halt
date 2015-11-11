@@ -1,0 +1,9 @@
+if [ -z $1 ]
+then
+  echo "usage SCRIPT <host file>"
+else
+  grep -v '^#' $1 | while read i p
+  do
+    ssh -p $p $i -tt sudo halt < /dev/null
+  done
+fi
