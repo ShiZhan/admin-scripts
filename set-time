@@ -1,0 +1,10 @@
+if [ -z $1 ]
+then
+  echo "usage SCRIPT <host file>"
+else
+  grep -v '^#' $1 | while read i p
+  do
+    t=$(date +"%F %T")
+    ssh -p $p $i -tt sudo date -s '"'$t'"' < /dev/null
+  done
+fi
