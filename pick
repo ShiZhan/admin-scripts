@@ -1,7 +1,6 @@
 if [ -z $1 ] || [ -z $2 ]; then
   echo "usage SCRIPT <host file> <line no>"
 else
-  address=`head -n $2 $1 | tail -n1`
-  read ip port <<< "$address"
-  ssh $ip -p $port
+  cmd=`head -n $2 $1 | tail -n1 | awk '{print "ssh "$1" -p "$2}'`
+  eval $cmd
 fi
