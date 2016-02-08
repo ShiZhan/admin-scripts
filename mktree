@@ -1,0 +1,21 @@
+#!/bin/sh
+# generate $2+1 subdirectories in directory $1 or one empty file as $1, from level $3 to level 0.
+grow_tree() {
+  name=$1
+  nsub=$2
+  level=$3
+
+  if [[ $level -eq 0 ]]; then
+    touch $name
+  else
+    mkdir $name
+    (
+      cd $name
+      next_level=$[ level-1 ]
+      for i in `seq 0 1 $nsub`; do grow_tree $i $nsub $next_level; done
+    )
+  fi
+}
+
+[[ $# -gt 2 ]] && grow_tree $1 $2 $3 || echo "mktree <directory> <max ID of sub tree> <level>" 
+
