@@ -7,4 +7,5 @@ else
     echo "copy to ["$i"]"
     scp -P $p -p $2 $i":~/" > /dev/null &
   done
+  wait
 fi
