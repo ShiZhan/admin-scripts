@@ -1,0 +1,22 @@
+# pipe management
+
+PIPE_DIR="/tmp/pipes"
+
+make_pipes() {
+  if [[ ! -d $PIPE_DIR ]]; then
+    mkdir $PIPE_DIR
+    for p in {0..9}; do
+      [[ ! -p $PIPE_DIR/$p.fifo ]] && mkfifo $PIPE_DIR/$p.fifo
+    done
+  fi
+  cmd=""
+  for p in {0..9}; do
+    cmd="export P$p=$PIPE_DIR/$p.fifo; $cmd"
+  done
+  eval $cmd
+}
+
+clean_pipes() {
+  [[ -d $PIPE_DIR ]] && rm -Rf $PIPE_DIR
+  for p in {0..9}; do unset P$p; done
+}
