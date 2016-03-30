@@ -7,23 +7,17 @@ if [[ $# -lt 3 ]]; then
   exit 1
 fi
 
+max_id=$[ $1 - 1 ]
 out=$2
 cmd=$3
-max_id=$[ $1-1 ]
-for i in `seq 0 $max_id`
-do
-  [[ $4 != "" ]] && o1=`echo $4 | sed -r 's/\{#\}/$i/g'`;
-  [[ $5 != "" ]] && o2=`echo $5 | sed -r 's/\{#\}/$i/g'`;
-  [[ $6 != "" ]] && o3=`echo $6 | sed -r 's/\{#\}/$i/g'`;
-  [[ $7 != "" ]] && o4=`echo $7 | sed -r 's/\{#\}/$i/g'`;
-  [[ $8 != "" ]] && o5=`echo $8 | sed -r 's/\{#\}/$i/g'`;
-  [[ $9 != "" ]] && o6=`echo $9 | sed -r 's/\{#\}/$i/g'`;
-
+opt_=${@:4}
+for i in `seq 0 $max_id`; do
+  opts=${opt_//\{#\}/$i}
   file_name=`printf "%s.%03d" $out $i`
   case $out in
-    none) $cmd $o1 $o2 $o3 $o4 $o5 $o6 > /dev/null  & ;;
-    -)    $cmd $o1 $o2 $o3 $o4 $o5 $o6              & ;;
-    *)    $cmd $o1 $o2 $o3 $o4 $o5 $o6 > $file_name & ;;
-  esac 
+    none) $cmd $opts > /dev/null  & ;;
+    -)    $cmd $opts              & ;;
+    *)    $cmd $opts > $file_name & ;;
+  esac
 done
 wait
