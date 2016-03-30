@@ -1,5 +1,5 @@
-if [[ $# -lt 2 ]]; then
-  echo "Usage: script <number of process> <output> <command> <options ...>"
+if [[ $# -lt 3 ]]; then
+  echo "Usage: $0 <number of process> <output> <command> <options ...>"
   echo "E.g.: "
   echo "1. no output:               script 4 none  date +%s.%N"
   echo "2. console output:          script 4 -     date +%s.%N"
@@ -7,14 +7,23 @@ if [[ $# -lt 2 ]]; then
   exit 1
 fi
 
-ID=$[ $1-1 ]
-for i in `seq 0 $ID`
+out=$2
+cmd=$3
+max_id=$[ $1-1 ]
+for i in `seq 0 $max_id`
 do
-  output=`printf "%s.%03d" $2 $i`
-  case $2 in
-    none) $3 $4 $5 $6 $7 $8 $9 > /dev/null & ;;
-    -)    $3 $4 $5 $6 $7 $8 $9             & ;;
-    *)    $3 $4 $5 $6 $7 $8 $9 > $output   & ;;
+  [[ $4 != "" ]] && o1=`echo $4 | sed -r 's/\{#\}/$i/g'`;
+  [[ $5 != "" ]] && o2=`echo $5 | sed -r 's/\{#\}/$i/g'`;
+  [[ $6 != "" ]] && o3=`echo $6 | sed -r 's/\{#\}/$i/g'`;
+  [[ $7 != "" ]] && o4=`echo $7 | sed -r 's/\{#\}/$i/g'`;
+  [[ $8 != "" ]] && o5=`echo $8 | sed -r 's/\{#\}/$i/g'`;
+  [[ $9 != "" ]] && o6=`echo $9 | sed -r 's/\{#\}/$i/g'`;
+
+  file_name=`printf "%s.%03d" $out $i`
+  case $out in
+    none) $cmd $o1 $o2 $o3 $o4 $o5 $o6 > /dev/null  & ;;
+    -)    $cmd $o1 $o2 $o3 $o4 $o5 $o6              & ;;
+    *)    $cmd $o1 $o2 $o3 $o4 $o5 $o6 > $file_name & ;;
   esac 
 done
 wait
