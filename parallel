@@ -7,13 +7,13 @@ if [[ $# -lt 3 ]]; then
   exit 1
 fi
 
-max_id=$[ $1 - 1 ]
+max=$1
 out=$2
 cmd=$3
 opt_=${@:4}
-for i in `seq 0 $max_id`; do
-  opts=${opt_//\{#\}/$i}
-  file_name=`printf "%s.%03d" $out $i`
+for id in `seq 1 $max`; do
+  opts=${opt_//\{#\}/$id}
+  file_name=`printf "%s.%03d" $out $id`
   case $out in
     none) $cmd $opts > /dev/null  & ;;
     -)    $cmd $opts              & ;;
