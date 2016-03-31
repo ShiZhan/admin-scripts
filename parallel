@@ -1,18 +1,15 @@
-this_script=`basename $0`
+this_script=${0##*/}
 
 if [[ $# -lt 3 ]]; then
   echo "Usage: $this_script <number of process> <output> <command> <options ...>"
   echo "E.g.: "
   echo "1. no output:               $this_script 4 none  date +%s.%N"
   echo "2. console output:          $this_script 4 -     date +%s.%N"
-  echo "3. output to ./out.000-003: $this_script 4 ./out date +%s.%N"
+  echo "3. output to ./out.001-004: $this_script 4 ./out date +%s.%N"
   exit 1
 fi
 
-max=$1
-out=$2
-cmd=$3
-opt_=${@:4}
+max=$1; out=$2; cmd=$3; opt_=${@:4}
 for id in `seq 1 $max`; do
   opts=${opt_//\{#\}/$id}
   file_name=`printf "%s.%03d" $out $id`
