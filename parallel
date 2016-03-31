@@ -1,9 +1,11 @@
+this_script=`basename $0`
+
 if [[ $# -lt 3 ]]; then
-  echo "Usage: $0 <number of process> <output> <command> <options ...>"
+  echo "Usage: $this_script <number of process> <output> <command> <options ...>"
   echo "E.g.: "
-  echo "1. no output:               script 4 none  date +%s.%N"
-  echo "2. console output:          script 4 -     date +%s.%N"
-  echo "3. output to ./out.000-003: script 4 ./out date +%s.%N"
+  echo "1. no output:               $this_script 4 none  date +%s.%N"
+  echo "2. console output:          $this_script 4 -     date +%s.%N"
+  echo "3. output to ./out.000-003: $this_script 4 ./out date +%s.%N"
   exit 1
 fi
 
