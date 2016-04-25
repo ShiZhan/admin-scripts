@@ -1,9 +1,13 @@
-if [ -z $1 ] ; then
-  echo "E.g.: <script name> 192.168.1"
+if [ $# -lt 1 ]; then
+  echo "E.g.: <script name>  <subnet>  <from>  <to>"
+  echo "      default:       192.168.1      1   255"
 else
+  subnet=$1
+  [ -z $2 ] && from=1 || from=$2
+  [ -z $3 ] && to=255 || to=$3
   if [ `uname | cut -c -3` == "CYG" ]; then # cygwin use windows ping
-    for i in {1..254}; do ([ -z "`ping 192.168.137.$i -n 1 | grep TTL`" ] || echo "$1.$i" &); done
+    for i in `seq $from $to`; do ([ -z "`ping $subnet.$i -n 1 | grep TTL`" ] || echo "$subnet.$i" &); done
   else
-    for i in {1..254}; do (ping $1.$i -c 1 > /dev/null && echo "$1.$i" &); done
+    for i in `seq $from $to`; do (ping $subnet.$i -c 1 > /dev/null && echo "$subnet.$i" &); done
   fi
 fi
