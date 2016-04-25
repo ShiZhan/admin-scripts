@@ -1,5 +1,9 @@
 if [ -z $1 ] ; then
   echo "E.g.: <script name> 192.168.1"
 else
-  for i in {1..254} ; do (ping $1.$i -c 1 > /dev/null && echo "$1.$i" & ) ; done
+  if [ `uname | cut -c -3` == "CYG" ]; then # cygwin use windows ping
+    for i in {1..254}; do ([ -z "`ping 192.168.137.$i -n 1 | grep TTL`" ] || echo "$1.$i" &); done
+  else
+    for i in {1..254}; do (ping $1.$i -c 1 > /dev/null && echo "$1.$i" &); done
+  fi
 fi
