@@ -1,6 +1,6 @@
 if [ -z $1 ] || [ -z $2 ]; then
   echo "usage SCRIPT <host file> <line no>"
 else
-  cmd=`head -n $2 $1 | tail -n1 | awk '{print "ssh "$1" -p "$2}'`
+  cmd=`grep -v ^# $1 | head -n $2 | tail -n1 | awk '{print "ssh "$1" -p "$2}'`
   eval $cmd
 fi
