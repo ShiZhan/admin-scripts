@@ -25,7 +25,7 @@ else
   DIR="$3/"
 fi
 
-for img in `ssh $HOST -p $PORT "ls $DIR"`; do
+for img in `ssh $HOST -p $PORT "ls $DIR" | grep .tar.bz2`; do
   ssh -oStrictHostKeyChecking=no $HOST -p $PORT "cat $DIR$img" | bunzip2 | docker load
 done
 
