@@ -1,0 +1,42 @@
+#!/bin/bash
+
+type docker > /dev/null 2> /dev/null
+if [ $? != 0 ]; then
+  echo "docker not installed"
+  exit 1
+fi
+
+type pv > /dev/null 2> /dev/null
+if [ $? != 0 ]; then
+  echo "use pv to show progress"
+  exit 1
+fi
+
+if [ -z $1 ]; then
+  echo "$0 <image> <host> <ssh port(22)> <directory(~)>"
+  exit 1
+else
+  IMAGE=$1
+fi
+
+if [ -z $2 ]; then
+  echo "$0 <image> <host> <ssh port(22)> <directory(~)>"
+  exit 1
+else
+  HOST=$2
+fi
+
+if [ -z $3 ]; then
+  PORT=22
+else
+  PORT=$3
+fi
+
+if [ -z $4 ]; then
+  DIR=""
+else
+  DIR="$4/"
+fi
+
+docker save $IMAGE | bzip2 | pv -N $IMAGE | ssh $HOST -p $PORT "cat > "$DIR$IMAGE".tar.bz2"
+
