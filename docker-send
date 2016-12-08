@@ -26,5 +26,5 @@ else
   PORT=$3
 fi
 
-docker save $IMAGE | ssh $HOST -p $PORT "docker load"
+docker save $IMAGE | ssh -oStrictHostKeyChecking=no $HOST -p $PORT "docker load"
 

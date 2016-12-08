@@ -26,6 +26,6 @@ else
 fi
 
 for img in `ssh $HOST -p $PORT "ls $DIR"`; do
-  ssh $HOST -p $PORT "cat $DIR$img" | bunzip2 | docker load
+  ssh -oStrictHostKeyChecking=no $HOST -p $PORT "cat $DIR$img" | bunzip2 | docker load
 done
 

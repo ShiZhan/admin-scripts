@@ -38,5 +38,5 @@ else
   DIR="$4/"
 fi
 
-docker save $IMAGE | bzip2 | pv -N $IMAGE | ssh $HOST -p $PORT "cat > "$DIR$IMAGE".tar.bz2"
+docker save $IMAGE | bzip2 | pv -N $IMAGE | ssh -oStrictHostKeyChecking=no $HOST -p $PORT "cat > "$DIR$IMAGE".tar.bz2"
 

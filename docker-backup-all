@@ -32,6 +32,6 @@ else
 fi
 
 for img in `docker images -q`; do
-  docker save $img | bzip2 | pv -N $img | ssh $HOST -p $PORT "cat > "$DIR$img".tar.bz2"
+  docker save $img | bzip2 | pv -N $img | ssh -oStrictHostKeyChecking=no $HOST -p $PORT "cat > "$DIR$img".tar.bz2"
 done
 
